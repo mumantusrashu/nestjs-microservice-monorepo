@@ -5,16 +5,10 @@
   "projectType": "application",
   "tags": [],
   "targets": {
-    "build": {
-      "executor": "nx:run-commands",
+    "test": {
+      "executor": "@nx/jest:jest",
       "options": {
-        "command": "webpack-cli build",
-        "args": ["node-env=production"]
-      },
-      "configurations": {
-        "development": {
-          "args": ["node-env=development"]
-        }
+        "jestConfig": "{projectRoot}/jest.config.ts"
       }
     },
     "serve": {
@@ -23,7 +17,7 @@
       "dependsOn": ["build"],
       "options": {
         "buildTarget": "jobber-auth:build",
-        "runBuildTargetDependencies": false
+        "runBuildTargetDependencies": true
       },
       "configurations": {
         "development": {
@@ -32,11 +26,6 @@
         "production": {
           "buildTarget": "jobber-auth:build:production"
         }
-      }
-    },
-    "test": {
-      "options": {
-        "passWithNoTests": true
       }
     }
   }
