@@ -9,10 +9,7 @@
       "dependsOn": ["generate-types"]
     },
     "test": {
-      "executor": "@nx/jest:jest",
-      "options": {
-        "jestConfig": "{projectRoot}/jest.config.ts"
-      }
+      "dependsOn": ["generate-types"]
     },
     "serve": {
       "executor": "@nx/js:node",
