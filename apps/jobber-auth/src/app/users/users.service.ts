@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { User } from './models/users.model';
 import { hash } from 'bcryptjs';
+import { Prisma } from '@prisma-clients/jobber-auth';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
-  async createUser(data: { email: string; password: string }): Promise<User> {
-    return this.prisma.user.create({
+  constructor(private prismaService: PrismaService) {}
+  async createUser(data: Prisma.UserCreateInput) {
+    return this.prismaService.user.create({
       data: {
         ...data,
         password: await hash(data.password, 10),
@@ -15,7 +15,12 @@ export class UserService {
     });
   }
 
-  async getUsers(): Promise<User[]> {
-    return this.prisma.user.findMany();
+  async getUsers() {
+    return this.prismaService.user.findMany();
+  }
+  async getUser(args: Prisma.UserWhereUniqueInput) {
+    return this.prismaService.user.findUniqueOrThrow({
+      where: args,
+    });
   }
 }
